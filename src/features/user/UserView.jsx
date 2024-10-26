@@ -1,24 +1,32 @@
-import { useSelector } from "react-redux"
+import { useEffect } from "react"
+import { useSelector, useDispatch } from "react-redux"
+import { fetchUsers } from "./userSlice";
 
 const UserView = () => {
-  const users = useSelector((state) => state.user.users)
+  const users = useSelector((state) => state.user);
+  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(fetchUsers())
+  }, []);
   return (
     <div>
+      <h2>List of Users</h2>
+      {users.loading && <div>Loading..</div>}
+      {!users.loading && users.error ? <div>Error:{users.error}</div> : null}
       {
-        users && (
-          <>
-          <h2>List of Users</h2>
+        !users.loading && users.users.length ? (
           <ul>
-          {users.map((user)=>{
-            return(
-              {user}
-            )
-          })}
+            {
+              users.users.map(user => (
+                <>
+                  <li key={user.id} >{user.name}</li>
+                </>
+              ))
+            }
           </ul>
-          </>
-        )
+        ) :
+          null
       }
-
     </div>
   )
 }
