@@ -9,7 +9,7 @@ const initialState = {
 
 //create pending ,fullfilled and rejected actions
 export const fetchUsers = createAsyncThunk('user/fetchUsers', async () => {
-    const response = await axios.get('https://jsonplaceholders.typicode.com/users');
+    const response = await axios.get('https://jsonplaceholder.typicode.com/users');
     return response.data; // Return the actual data
   });
 
